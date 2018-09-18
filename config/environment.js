@@ -3,6 +3,7 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'selectbox-widget',
+    podModulePrefix: 'selectbox-widget/pods',
     environment,
     rootURL: '/',
     locationType: 'auto',
