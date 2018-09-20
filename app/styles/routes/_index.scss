@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  .left-side, .right-side {
+    width: 50%;
+    padding: 1rem;
+  }
+  .select-box {
+    margin: 10px;
+  }
+}

@@ -1,8 +1,53 @@
-{{select-box
-  options=categories
-  optionKey="name"
-  optionValue="value"
-  selected=selectedCategory
-  onInit=(action setProperty 'selectedCategory')
-  onChange=(action setProperty 'selectedCategory')
-}}
+<div class="container">
+  <div class="left-side">
+    {{select-box
+      options=categories
+      placeholder="Please choose category"
+      optionKey="name"
+      selected=selectedCategory
+      onChange=(compute (action setProperty) 'selectedCategory')
+    }}
+    {{#if selectedCategory}}
+     {{select-box
+        options=(compute (action convertToArray) selectedCategory.value)
+        placeholder="Please choose subcategory"
+        optionKey="name"
+        selected=selectedSubcategory
+        onChange=(action (queue (action (compute (action setProperty) 'selectedSubcategory')) (action divideByServers)))
+      }}
+    {{/if}}
+    {{#if servers}}
+     {{select-box
+        options=(compute (action convertToArray) servers)
+        optionKey="name"
+        isLoading=isLoading
+        placeholder="Please choose a server"
+        selected=selectedServer
+        onChange=(compute (action setProperty) 'selectedServer')
+      }}
+    {{/if}}
+    {{#if selectedServer}}
+     {{select-box
+        options=(compute (action convertToArray) selectedServer.value)
+        optionKey="name"
+        placeholder="Please choose URL"
+        selected=selectedUrl
+        onChange=(compute (action setProperty) 'selectedUrl')
+      }}
+    {{/if}}
+  </div>
+  <div class="right-side">
+    {{#if selectedCategory}}
+      <div>Selected category: <strong>{{selectedCategory.name}}</strong></div>
+    {{/if}}
+    {{#if selectedSubcategory}}
+      <div>Selected subcategory: <strong>{{selectedSubcategory.name}}</strong></div>
+    {{/if}}
+    {{#if selectedServer}}
+      <div>Selected server: <strong>{{selectedServer.name}}</strong></div>
+    {{/if}}
+    {{#if selectedUrl}}
+      <div>Selected url: <strong>{{selectedUrl.name}}</strong></div>
+    {{/if}}
+  </div>
+</div>

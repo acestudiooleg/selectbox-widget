@@ -1,1 +1,5 @@
+*, ::before, ::after {
+  box-sizing: border-box;
+}
+@import 'routes/index';
 @import 'components/index';

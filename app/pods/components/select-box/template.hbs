@@ -1,14 +1,45 @@
-<div class="select-field">
-  <span class="item">hello</span>
-  <span class="icon"></span>
-</div>
-<div class="dropdown-content">
-  <div class="search">
-    {{input}}
+<div class="wrapper">
+  <div {{action 'open'}} class="select-field">
+    <span class="item">
+      {{#if selected}}
+        {{#if optionKey}}
+          {{get selected optionKey}}
+        {{else}}
+          {{selected}}
+        {{/if}}
+      {{else}}
+        {{placeholder}}
+      {{/if}}
+    </span>
+    <span class="icon"></span>
   </div>
-  <ul class="list">
-    <li>hello</li>
-    <li>hello 2</li>
-    <li>hello 2 3</li>
-  </ul>
+  <div class="dropdown-content">
+    <div class="search">
+      {{input placeholder="Filter" value=criteria}}
+    </div>
+    {{#if isLoading}}
+      {{loading-spinner}}
+    {{else}}
+      <ul class="list">
+        {{#each taggedOptions as |option index|}}
+          <li {{action 'select' option}} class="{{if (eq selected.__id index) 'selected'}}">
+            {{#if optionKey}}
+              {{get option optionKey}}
+            {{else}}
+              {{option}}
+            {{/if}}
+          </li>
+        {{/each}}
+      </ul>
+      {{#if optionsLength}}
+        <div class="options-length">
+          <button {{action 'loadAll'}}>Load all</button>
+          Items length: {{optionsLength}} <b> -- Probably here should be Pagination Component</b></div>
+
+      {{/if}}
+    {{/if}}
+  </div>
 </div>
+{{#if isOpen}}
+  <div {{action 'close'}} class="click-handler"></div>
+{{/if}}
