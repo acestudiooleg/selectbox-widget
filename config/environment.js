@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'selectbox-widget',
     podModulePrefix: 'selectbox-widget/pods',
     environment,
-    rootURL: '/',
+    rootURL: 'https://acestudiooleg.github.io/selectbox-widget/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {

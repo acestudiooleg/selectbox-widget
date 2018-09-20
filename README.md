@@ -1,5 +1,7 @@
 # selectbox-widget
 
+[DEMO](https://acestudiooleg.github.io/selectbox-widget/)
+
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
 
