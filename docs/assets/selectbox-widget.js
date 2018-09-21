@@ -1588,6 +1588,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("selectbox-widget/app")["default"].create({"name":"selectbox-widget","version":"0.0.0+330a33b5"});
+  require("selectbox-widget/app")["default"].create({"name":"selectbox-widget","version":"0.0.0+bf5cdcab"});
 }
 //# sourceMappingURL=selectbox-widget.map
