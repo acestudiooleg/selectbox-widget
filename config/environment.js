@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'selectbox-widget',
     podModulePrefix: 'selectbox-widget/pods',
     environment,
-    rootURL: '/selectbox-widget/',
+    rootURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -45,6 +45,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.rootURL = '/selectbox-widget/';
     // here you can enable a production-specific feature
   }
 

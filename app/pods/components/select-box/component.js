@@ -37,11 +37,26 @@ const cutIfNeeded = (arr = [], len) => arr.length > len ? arr.slice(0, len) : ar
  * @module Components/SelectBox
  * @param {Boolean} isOpen - show dropdown list
  * @param {Boolean} isLoading - Show spinner in dropdown list
+ * @param {Array} options - list to render as options in selectbox
+ * @param {Array} optionKey - name of key is options is array of objects
+ * @param {*} selected - current selected options, zero index of options on init
+ * @param {String} placeholder - placeholder for selectbox
+ * @param {Function} onChange - method which will be calle on select some option
  * @param {Number} debounceTime - time between typing filter filed and reaction
  * @param {Number} maxItemsToShow - length of items which need to show and other items remove from array
+ * @param {Number} currentItemsLength - current items length rendered on the page
+ * @param {Number} addMoreItemsLength - how many items to render used for load more items
  * @param {Number} optionsLength - length of list
  * @param {String} criteria - filter word (search)
  * @param {String} placeholder - Label for selectbox
+ * @example
+ *  {{select-box
+      options=subCategories
+      placeholder="Please choose subcategory"
+      optionKey="name"
+      selected=selectedSubcategory
+      onChange='selectSubcategory'
+    }}
  */
 export default Component.extend({
   classNames: ['select-box'],
@@ -50,6 +65,8 @@ export default Component.extend({
   isLoading: false,
   debounceTime: 350,
   maxItemsToShow: 10,
+  currentItemsLength: 10,
+  addMoreItemsLength: 10,
   optionsLength: null,
   criteria: '',
   placeholder: 'Please select ...',
@@ -82,11 +99,15 @@ export default Component.extend({
   /**
    * filter options by search word
    */
-  filterOptions() {
-    const { options, optionKey, criteria } = this.getProperties('options', 'optionKey', 'criteria');
+  filterOptions(itemsToShow, useLoading = true) {
+    const {
+      options, optionKey, criteria, maxItemsToShow
+    } = this.getProperties('options', 'optionKey', 'criteria', 'maxItemsToShow');
     this.set('isLoading', true);
     filterData(options, optionKey, criteria).then((data) => {
-      this.set('taggedOptions', addTag(cutIfNeeded(data)));
+      const cut = cutIfNeeded(data, itemsToShow || maxItemsToShow);
+      this.set('optionsLength', data.length > maxItemsToShow ? data.length : null);
+      this.set('taggedOptions', addTag(cut));
       this.set('isLoading', false);
     })
   },
@@ -126,14 +147,14 @@ export default Component.extend({
     /**
      * Render all huge list to drop down list
      */
-    loadAll(){
+    loadMore(){
       this.set('isLoading', true);
-      const options = this.get('options');
-      (new Promise(resolve => setTimeout(() => resolve(addTag(options))), 0))
-        .then((taggedOptions) => {
-          this.set('taggedOptions', taggedOptions);
-          this.set('isLoading', false);
-        });
+      const {
+        addMoreItemsLength, currentItemsLength
+      } = this.getProperties('addMoreItemsLength', 'currentItemsLength');
+      const newLength = currentItemsLength + addMoreItemsLength;
+      this.set('currentItemsLength', newLength)
+      const options = this.filterOptions(newLength);
 
     }
   }
