@@ -99,7 +99,7 @@ export default Component.extend({
   /**
    * filter options by search word
    */
-  filterOptions(itemsToShow, useLoading = true) {
+  filterOptions(itemsToShow) {
     const {
       options, optionKey, criteria, maxItemsToShow
     } = this.getProperties('options', 'optionKey', 'criteria', 'maxItemsToShow');
@@ -148,14 +148,12 @@ export default Component.extend({
      * Render all huge list to drop down list
      */
     loadMore(){
-      this.set('isLoading', true);
       const {
         addMoreItemsLength, currentItemsLength
       } = this.getProperties('addMoreItemsLength', 'currentItemsLength');
       const newLength = currentItemsLength + addMoreItemsLength;
       this.set('currentItemsLength', newLength)
-      const options = this.filterOptions(newLength);
-
+      this.filterOptions(newLength);
     }
   }
 });
